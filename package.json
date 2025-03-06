@@ -1,0 +1,60 @@
+{
+  "name": "@valtown/codemirror-preview-replacement",
+  "version": "0.0.0",
+  "description": "CodeMirror plugin to support previewing a replacement operation",
+  "scripts": {
+    "prepare": "tsc",
+    "dev": "vite",
+    "tsc": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "biome lint",
+    "test:watch": "vitest",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/val-town/codemirror-preview-replacement.git"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "codemirror",
+    "codemirror6"
+  ],
+  "author": "Val Town",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/val-town/codemirror-preview-replacement/issues"
+  },
+  "homepage": "https://github.com/val-town/codemirror-preview-replacement#readme",
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.2",
+    "@codemirror/lang-javascript": "^6.2.2",
+    "codemirror": "^6.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.3.1",
+    "vitest": "^1.6.0"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "source": "./src/index.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "peerDependencies": {
+    "@codemirror/language": "^6",
+    "@codemirror/state": "^6",
+    "@codemirror/view": "^6"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

@@ -69,7 +69,7 @@ class PlaceholderWidget extends WidgetType {
     super();
   }
   eq(other: PlaceholderWidget) {
-    return this.name === other.name;
+    return this.name === other.name && this.to === other.to;
   }
   toDOM() {
     const elt = document.createElement("span");

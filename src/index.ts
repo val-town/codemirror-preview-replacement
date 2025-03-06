@@ -74,7 +74,15 @@ class PlaceholderWidget extends WidgetType {
   toDOM() {
     const elt = document.createElement("span");
 
-    if (this.to) {
+    if (this.to === null) {
+      const fromElt = document.createElement("span");
+      fromElt.className = "cm-preview-replace-match";
+      fromElt.style.cssText = `
+      background: yellow;`;
+      fromElt.textContent = this.name;
+
+      elt.appendChild(fromElt);
+    } else {
       const fromElt = document.createElement("span");
       fromElt.className = "cm-preview-replace-from";
       fromElt.style.cssText = `
@@ -93,14 +101,6 @@ class PlaceholderWidget extends WidgetType {
 
       elt.appendChild(fromElt);
       elt.appendChild(toElt);
-    } else {
-      const fromElt = document.createElement("span");
-      fromElt.className = "cm-preview-replace-match";
-      fromElt.style.cssText = `
-      background: yellow;`;
-      fromElt.textContent = this.name;
-
-      elt.appendChild(fromElt);
     }
 
     return elt;

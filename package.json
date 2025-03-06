@@ -1,6 +1,6 @@
 {
   "name": "@valtown/codemirror-preview-replacement",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "CodeMirror plugin to support previewing a replacement operation",
   "scripts": {
     "prepare": "tsc",

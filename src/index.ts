@@ -31,7 +31,6 @@ export const highlightPreviewReplacement = ViewPlugin.fromClass(
     placeholders: DecorationSet;
     constructor(view: EditorView) {
       const config = view.state.facet(highlightPreviewReplacementFacet);
-      console.log(config);
       if (!(config.to && config.from)) {
         this.placeholders = Decoration.none;
         return;

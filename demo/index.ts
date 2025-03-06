@@ -20,7 +20,7 @@ function increment(num: number) {
       }),
       highlightPreviewReplacementFacet.of({
         from: 'increment',
-        to: 'decrement'
+        to: null // 'decrement'
       }),
       highlightPreviewReplacement
     ],

@@ -11,7 +11,7 @@ import {
 
 interface HighlightPreviewReplacement {
   from: string;
-  to: string;
+  to: string | null;
 }
 
 export const highlightPreviewReplacementFacet = Facet.define<
@@ -31,7 +31,7 @@ export const highlightPreviewReplacement = ViewPlugin.fromClass(
     placeholders: DecorationSet;
     constructor(view: EditorView) {
       const config = view.state.facet(highlightPreviewReplacementFacet);
-      if (!(config.to && config.from)) {
+      if (!config.from) {
         this.placeholders = Decoration.none;
         return;
       }
@@ -42,7 +42,7 @@ export const highlightPreviewReplacement = ViewPlugin.fromClass(
     }
     update(update: ViewUpdate) {
       const config = update.state.facet(highlightPreviewReplacementFacet);
-      if (!(config.to && config.from)) {
+      if (!config.from) {
         this.placeholders = Decoration.none;
         return;
       }
@@ -64,7 +64,7 @@ export const highlightPreviewReplacement = ViewPlugin.fromClass(
 class PlaceholderWidget extends WidgetType {
   constructor(
     public name: string,
-    public to: string,
+    public to: string | null,
   ) {
     super();
   }
@@ -74,24 +74,34 @@ class PlaceholderWidget extends WidgetType {
   toDOM() {
     const elt = document.createElement("span");
 
-    const fromElt = document.createElement("span");
-    fromElt.className = "cm-preview-replace-from";
-    fromElt.style.cssText = `
+    if (this.to) {
+      const fromElt = document.createElement("span");
+      fromElt.className = "cm-preview-replace-from";
+      fromElt.style.cssText = `
       text-decoration: line-through;
       color: #7f1d1d;
       background: #fca5a5;`;
-    fromElt.textContent = this.name;
+      fromElt.textContent = this.name;
 
-    const toElt = document.createElement("span");
-    toElt.className = "cm-preview-replace-to";
-    toElt.style.cssText = `
+      const toElt = document.createElement("span");
+      toElt.className = "cm-preview-replace-to";
+      toElt.style.cssText = `
       color: green;
       color: #14532d;
       background: #ecfccb;`;
-    toElt.textContent = this.to;
+      toElt.textContent = this.to;
 
-    elt.appendChild(fromElt);
-    elt.appendChild(toElt);
+      elt.appendChild(fromElt);
+      elt.appendChild(toElt);
+    } else {
+      const fromElt = document.createElement("span");
+      fromElt.className = "cm-preview-replace-match";
+      fromElt.style.cssText = `
+      background: yellow;`;
+      fromElt.textContent = this.name;
+
+      elt.appendChild(fromElt);
+    }
 
     return elt;
   }
@@ -107,7 +117,7 @@ function escapeRegExp(str: string): string {
   return str.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
 }
 
-function getPlaceholderMatcher(fromstr: string | RegExp, to: string) {
+function getPlaceholderMatcher(fromstr: string | RegExp, to: string | null) {
   const regexp =
     typeof fromstr === "string"
       ? new RegExp(`(${escapeRegExp(fromstr)})`, "g")
